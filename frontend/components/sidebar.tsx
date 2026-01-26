@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { ChartLine, Home, LogOut, Package, ShoppingCart } from "lucide-react";
+import { OrganizationSwitcher } from "@/components/organization-switcher";
 
 // Menu items.
 const items = [
@@ -99,7 +100,8 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="gap-3">
+        <OrganizationSwitcher />
         <SidebarFooterContent />
       </SidebarFooter>
     </Sidebar>
