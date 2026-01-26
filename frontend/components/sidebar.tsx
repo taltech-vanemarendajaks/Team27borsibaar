@@ -77,6 +77,11 @@ function SidebarFooterContent() {
 
   return (
     <SidebarMenu>
+      {!isCollapsed && (
+        <SidebarMenuItem>
+          <OrganizationSwitcher />
+        </SidebarMenuItem>
+      )}
       <SidebarMenuItem>
         <SidebarMenuButton size="lg" onClick={handleLogout} tooltip="Logout">
           <LogOut className="!w-6 !h-6" />
@@ -100,8 +105,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="gap-3">
-        <OrganizationSwitcher />
+      <SidebarFooter>
         <SidebarFooterContent />
       </SidebarFooter>
     </Sidebar>

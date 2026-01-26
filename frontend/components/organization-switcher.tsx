@@ -87,28 +87,42 @@ export function OrganizationSwitcher() {
     }
   };
 
-  if (loading || !currentUser?.organizationId) {
-    return null;
-  }
-
   const currentOrg = organizations.find(
-    (org) => org.id === currentUser.organizationId,
+    (org) => org.id === currentUser?.organizationId,
   );
+
+  const getDisplayText = () => {
+    if (loading) return "Loading...";
+    if (!currentUser?.organizationId) return "No organization";
+    return currentOrg?.name || "Select organization";
+  };
+
+  const displayText = getDisplayText();
+
+  // Dynamic font size based on text length
+  const getFontSize = () => {
+    const length = displayText.length;
+    if (length <= 10) return "text-lg";
+    if (length <= 20) return "text-base";
+    return "text-sm";
+  };
+
+  const isDisabled =
+    loading ||
+    switching ||
+    !currentUser?.organizationId ||
+    organizations.length <= 1;
 
   return (
     <Select
-      value={currentUser.organizationId?.toString()}
+      value={currentUser?.organizationId?.toString() || ""}
       onValueChange={handleOrganizationChange}
-      disabled={switching || organizations.length <= 1}
+      disabled={isDisabled}
     >
-      <SelectTrigger className="w-full">
-        <div className="flex items-center gap-2">
-          <Building2 className="!w-4 !h-4" />
-          <SelectValue>
-            {switching
-              ? "Switching..."
-              : currentOrg?.name || "Select organization"}
-          </SelectValue>
+      <SelectTrigger className="w-full h-12 border-0 shadow-none bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-md px-2 transition-colors">
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <Building2 className="!w-6 !h-6 shrink-0" />
+          <span className={`${getFontSize()} font-medium`}>{displayText}</span>
         </div>
       </SelectTrigger>
       <SelectContent>
