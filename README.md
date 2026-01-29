@@ -51,6 +51,16 @@ cd frontend && npm run lint
 
 ### Docker usage
 
+### Testing
+
+```bash
+# Run backend tests
+cd backend && ./mvnw test
+
+# Run frontend tests (if available)
+cd frontend && npm test
+
+
 ```bash
 # Start full development environment (DB and backend)
 docker compose up
