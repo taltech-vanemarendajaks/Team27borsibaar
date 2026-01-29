@@ -15,24 +15,23 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductService productService;
+  private final ProductService productService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ProductResponseDto create(@RequestBody @Valid ProductRequestDto request) {
-        User user = SecurityUtils.getCurrentUser();
-        return productService.create(request, user.getOrganizationId());
-    }
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public ProductResponseDto create(@RequestBody @Valid ProductRequestDto request) {
+    User user = SecurityUtils.getCurrentUser();
+    return productService.create(request, user.getOrganizationId());
+  }
 
-    @GetMapping("/{id}")
-    public ProductResponseDto get(@PathVariable Long id) {
-        return productService.getById(id);
-    }
+  @GetMapping("/{id}")
+  public ProductResponseDto get(@PathVariable Long id) {
+    return productService.getById(id);
+  }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        productService.delete(id);
-    }
-
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void delete(@PathVariable Long id) {
+    productService.delete(id);
+  }
 }
