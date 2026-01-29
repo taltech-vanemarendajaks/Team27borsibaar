@@ -89,6 +89,15 @@ Next.js 15 application using the App Router:
 
 PostgreSQL database configured via Docker. Environment variables are loaded from `.env` and `backend/.env` files.
 
+## Quick Start
+
+1. Clone the repository
+2. Copy `.sample.env` to `.env` and fill in database credentials
+3. Start services: `docker compose up`
+4. In another terminal: `cd frontend && npm install && npm run dev`
+5. Open http://localhost:3000
+
+
 ## Environment Setup
 
 1. Copy `.sample.env` to `.env` and configure credentials
