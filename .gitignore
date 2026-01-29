@@ -8,3 +8,10 @@ backend/.env
 nginx/ssl/
 *.pem
 *.key
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# Personal Cursor rules (private, not for team)
+cursor-rules/

@@ -22,11 +22,7 @@ interface StationDialogProps {
   userFetchError: string | null;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (data: {
-    name: string;
-    description: string;
-    userIds: string[];
-  }) => Promise<void>;
+  onSubmit: (data: { name: string; description: string; userIds: string[] }) => Promise<void>;
   trigger?: React.ReactNode;
 }
 
@@ -49,9 +45,7 @@ export function StationDialog({
     if (mode === "edit" && station) {
       setFormName(station.name);
       setFormDescription(station.description || "");
-      setFormUserIds(
-        station.assignedUsers?.map((u: User) => u.id.toString()) || []
-      );
+      setFormUserIds(station.assignedUsers?.map((u: User) => u.id.toString()) || []);
     } else {
       setFormName("");
       setFormDescription("");
@@ -93,9 +87,7 @@ export function StationDialog({
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {mode === "create" ? "Create New Station" : "Edit Station"}
-          </DialogTitle>
+          <DialogTitle>{mode === "create" ? "Create New Station" : "Edit Station"}</DialogTitle>
           <DialogDescription>
             {mode === "create"
               ? "Add a new POS station for your organization"
@@ -128,11 +120,7 @@ export function StationDialog({
             error={userFetchError}
           />
           <div className="flex gap-2">
-            <Button
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="flex-1"
-            >
+            <Button onClick={handleSubmit} disabled={isSubmitting} className="flex-1">
               {isSubmitting
                 ? mode === "create"
                   ? "Creating..."
@@ -141,11 +129,7 @@ export function StationDialog({
                   ? "Create"
                   : "Save"}
             </Button>
-            <Button
-              variant="outline"
-              onClick={handleCancel}
-              disabled={isSubmitting}
-            >
+            <Button variant="outline" onClick={handleCancel} disabled={isSubmitting}>
               Cancel
             </Button>
           </div>
@@ -154,4 +138,3 @@ export function StationDialog({
     </Dialog>
   );
 }
-

@@ -1,0 +1,43 @@
+# EditorConfig helps maintain consistent coding styles across different editors
+# This file works automatically in most modern editors (VS Code, IntelliJ, Cursor, etc.)
+# Place this in your PROJECT ROOT
+
+root = true  # This is the top-most EditorConfig file (stop searching in parent directories)
+
+# Default settings for all files
+[*]
+charset = utf-8                      # Use UTF-8 encoding (supports all characters)
+end_of_line = lf                     # Use Unix-style line endings (prevents Windows/Mac conflicts)
+insert_final_newline = true          # Add newline at end of file (Git best practice)
+trim_trailing_whitespace = true      # Remove spaces at end of lines (cleaner diffs)
+
+# Frontend files (TypeScript, JavaScript, JSX, TSX)
+[*.{js,jsx,ts,tsx,json,css,scss}]
+indent_style = space                 # Use spaces, not tabs
+indent_size = 2                      # 2 spaces per indent level (JS/TS standard)
+
+# Backend files (Java)
+[*.java]
+indent_style = space                 # Use spaces, not tabs
+indent_size = 4                      # 4 spaces per indent level (Java standard)
+
+# XML files (pom.xml, etc.)
+[*.xml]
+indent_style = tab                   # Use tabs for XML (Maven convention)
+indent_size = 4                      # Tab width of 4 spaces
+
+# YAML files (docker-compose, CI/CD)
+[*.{yml,yaml}]
+indent_style = space                 # Use spaces (YAML requires spaces, not tabs)
+indent_size = 2                      # 2 spaces per indent level (YAML standard)
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false     # Keep trailing spaces (Markdown uses 2 spaces for line breaks)
+indent_style = space                 # Use spaces
+indent_size = 2                      # 2 spaces per indent level
+
+# Environment files
+[*.env*]
+trim_trailing_whitespace = true      # Remove trailing spaces in .env files
+

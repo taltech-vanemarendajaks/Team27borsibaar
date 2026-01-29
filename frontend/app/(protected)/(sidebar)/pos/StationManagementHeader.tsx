@@ -12,11 +12,7 @@ interface StationManagementHeaderProps {
   onCreateDialogOpenChange: (open: boolean) => void;
   allUsers: User[];
   userFetchError: string | null;
-  onCreate: (data: {
-    name: string;
-    description: string;
-    userIds: string[];
-  }) => Promise<void>;
+  onCreate: (data: { name: string; description: string; userIds: string[] }) => Promise<void>;
 }
 
 export function StationManagementHeader({
@@ -66,4 +62,3 @@ export function StationManagementHeader({
     </div>
   );
 }
-
