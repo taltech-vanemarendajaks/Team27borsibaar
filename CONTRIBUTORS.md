@@ -1,6 +1,20 @@
 # Contributing to Börsibaar
 
-## Prerequisites
+## Table of Contents
+
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Local Setup](#local-setup)
+- [Branching Strategy](#branching-strategy)
+- [Commit Guidelines](#commit-guidelines)
+- [Code Style](#code-style)
+- [Database Migrations](#database-migrations)
+- [PR Submission](#pr-submission)
+- [Code Review Checklist](#code-review-checklist)
+
+## Getting Started
+
+### Prerequisites
 
 - **Docker** (for backend/database)
 - **Node.js** 18+ and npm (for frontend)
@@ -8,7 +22,7 @@
 - **Git** with SSH/HTTPS configured
 - **Linear account** (for work item tracking)
 
-## Local Setup
+### Local Setup
 
 1. **Clone repository**
    ```bash
