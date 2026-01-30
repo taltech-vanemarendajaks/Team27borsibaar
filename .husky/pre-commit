@@ -1,39 +1,23 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+# Check if Java files are being committed and if Docker is running
+if git diff --cached --name-only | grep -q "\.java$"; then
+  if ! docker compose ps backend 2>/dev/null | grep -q "Up"; then
+    echo "Backend not running: docker compose up -d backend"
+    exit 1
+  fi
+fi
 
-echo "🎨 Formatting frontend..."
+# Format frontend
+echo "Formatting frontend..."
 cd frontend
 npx prettier --write --ignore-unknown .
 cd ..
 
-# Check if any Java files are being committed
+# Format backend if Java files present
 if git diff --cached --name-only | grep -q "\.java$"; then
-  echo "📝 Java files detected in commit"
-  
-  # Check if Docker backend is running
-  if docker compose ps backend 2>/dev/null | grep -q "Up"; then
-    echo "✅ Docker is running"
-    echo "🎨 Formatting backend..."
-    docker compose exec -T backend ./mvnw spotless:apply
-    git add -u
-    echo "✅ Backend formatted"
-  else
-    echo ""
-    echo "❌ ERROR: Docker backend is not running"
-    echo ""
-    echo "You're committing Java files, but Docker isn't running."
-    echo ""
-    echo "Start Docker with:"
-    echo "  docker compose up -d backend"
-    echo ""
-    echo "Then try your commit again."
-    echo ""
-    exit 1
-  fi
-else
-  echo "✅ No Java files in commit - skipping backend check"
-  git add -u
+  echo "Formatting backend..."
+  docker compose exec -T backend ./mvnw spotless:apply
 fi
 
-echo "✅ Done!"
+git add -u
+echo "Done!"
 
