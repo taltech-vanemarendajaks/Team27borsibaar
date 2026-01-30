@@ -5,6 +5,23 @@
 - Docker Desktop installed
 - Docker Compose included
 
+## Run Docker Desktop
+_If you have a recent version of Docker Desktop installed, you can use the built-in desktop CLI plugin on all platforms._
+
+```bash
+# Start: 
+docker desktop start
+
+# Stop: 
+docker desktop stop
+
+# Restart: 
+docker desktop restart
+
+# Status: 
+docker desktop status
+```
+
 ## Quick Start
 
 ```bash
