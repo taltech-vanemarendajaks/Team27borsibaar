@@ -1,11 +1,14 @@
 package com.borsibaar.controller;
 
+import com.borsibaar.entity.Organization;
 import com.borsibaar.entity.Role;
 import com.borsibaar.entity.User;
+import com.borsibaar.repository.OrganizationRepository;
 import com.borsibaar.repository.RoleRepository;
 import com.borsibaar.repository.UserRepository;
 import com.borsibaar.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +20,15 @@ import org.springframework.web.server.ResponseStatusException;
 public class AccountController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final OrganizationRepository organizationRepository;
 
     public record MeResponse(String email, String name, String role, Long organizationId, boolean needsOnboarding) {
     }
 
     public record onboardingRequest(Long organizationId, boolean acceptTerms) {
+    }
+
+    public record changeOrganizationRequest(Long organizationId) {
     }
 
     @GetMapping
@@ -79,8 +86,48 @@ public class AccountController {
             // Log unexpected errors for debugging
             // This will be handled by ApiExceptionHandler and return ProblemDetail
             throw new ResponseStatusException(
-                    org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR,
+                    HttpStatus.INTERNAL_SERVER_ERROR,
                     "Failed to complete onboarding: " + e.getMessage(),
+                    e);
+        }
+    }
+
+    @PostMapping("/organization")
+    @Transactional
+    public ResponseEntity<Void> changeOrganization(@RequestBody changeOrganizationRequest req) {
+        try {
+            if (req.organizationId() == null) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            // Validate that organization exists
+            Organization organization = organizationRepository.findById(req.organizationId())
+                    .orElseThrow(() -> new ResponseStatusException(
+                            HttpStatus.NOT_FOUND, "Organization not found"));
+
+            User user = SecurityUtils.getCurrentUser(false);
+
+            Role adminRole = roleRepository.findByName("ADMIN")
+                    .orElseThrow(() -> new IllegalArgumentException("Admin role ADMIN not found"));
+
+            // Change user's organization
+            user.setOrganizationId(req.organizationId());
+
+            // If organization has no admin, set this user as admin
+            if (userRepository.findByOrganizationIdAndRole(req.organizationId(), adminRole).isEmpty()) {
+                user.setRole(adminRole);
+            }
+
+            userRepository.save(user);
+
+            return ResponseEntity.noContent().build();
+        } catch (ResponseStatusException e) {
+            throw e; // Re-throw to be handled by exception handler
+        } catch (Exception e) {
+            // Log unexpected errors for debugging
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Failed to change organization: " + e.getMessage(),
                     e);
         }
     }

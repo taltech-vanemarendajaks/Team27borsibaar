@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { ChartLine, Home, LogOut, Package, ShoppingCart } from "lucide-react";
+import { OrganizationSwitcher } from "@/components/organization-switcher";
 
 // Menu items.
 const items = [
@@ -76,6 +77,11 @@ function SidebarFooterContent() {
 
   return (
     <SidebarMenu>
+      {!isCollapsed && (
+        <SidebarMenuItem>
+          <OrganizationSwitcher />
+        </SidebarMenuItem>
+      )}
       <SidebarMenuItem>
         <SidebarMenuButton size="lg" onClick={handleLogout} tooltip="Logout">
           <LogOut className="!w-6 !h-6" />
