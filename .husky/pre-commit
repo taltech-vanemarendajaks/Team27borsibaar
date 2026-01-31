@@ -1,0 +1,23 @@
+# Check if Java files are being committed and if Docker is running
+if git diff --cached --name-only | grep -q "\.java$"; then
+  if ! docker compose ps backend 2>/dev/null | grep -q "Up"; then
+    echo "Backend not running: docker compose up -d backend"
+    exit 1
+  fi
+fi
+
+# Format frontend
+echo "Formatting frontend..."
+cd frontend
+npx prettier --write --ignore-unknown .
+cd ..
+
+# Format backend if Java files present
+if git diff --cached --name-only | grep -q "\.java$"; then
+  echo "Formatting backend..."
+  docker compose exec -T backend ./mvnw spotless:apply
+fi
+
+git add -u
+echo "Done!"
+

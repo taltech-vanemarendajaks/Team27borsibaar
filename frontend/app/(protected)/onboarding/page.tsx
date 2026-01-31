@@ -10,9 +10,7 @@ type Org = { id: number; name: string; createdAt?: string; updatedAt?: string };
 export default function OnboardingPage() {
   const router = useRouter();
 
-  const [orgs, setOrgs] = useState<Org[]>([
-    { id: 1, name: "Default Organization" },
-  ]); // fallback
+  const [orgs, setOrgs] = useState<Org[]>([{ id: 1, name: "Default Organization" }]); // fallback
   const [organizationId, setOrganizationId] = useState<number | "">("");
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -65,8 +63,7 @@ export default function OnboardingPage() {
     try {
       setSaving(true);
       setError(null);
-      if (organizationId === "")
-        throw new Error("Please choose an organization");
+      if (organizationId === "") throw new Error("Please choose an organization");
 
       const resp = await fetch("/api/backend/account/onboarding", {
         method: "POST",
@@ -92,9 +89,7 @@ export default function OnboardingPage() {
     <div className="min-h-screen flex items-center justify-center bg-background p-6">
       <div className="w-full max-w-lg rounded-2xl bg-card text-card-foreground p-6 shadow [color-scheme:light]">
         <h1 className="text-xl font-semibold">Finish onboarding</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Choose your organization to continue.
-        </p>
+        <p className="mt-1 text-sm text-muted-foreground">Choose your organization to continue.</p>
 
         <div className="mt-5 space-y-4">
           <div>
@@ -102,9 +97,7 @@ export default function OnboardingPage() {
             <select
               className="mt-1 w-full rounded-lg border border-input bg-background text-foreground px-3 py-2"
               value={organizationId}
-              onChange={(e) =>
-                setOrganizationId(e.target.value ? Number(e.target.value) : "")
-              }
+              onChange={(e) => setOrganizationId(e.target.value ? Number(e.target.value) : "")}
               disabled={loadingOrgs || saving}
             >
               <option value="">{loadingOrgs ? "Loading…" : "Select…"}</option>

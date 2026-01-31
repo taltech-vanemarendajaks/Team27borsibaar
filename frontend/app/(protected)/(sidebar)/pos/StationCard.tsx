@@ -14,11 +14,7 @@ interface StationCardProps {
   editingStationId: number | null;
   onEditClick: (station: BarStation) => void;
   onEditClose: () => void;
-  onUpdate: (data: {
-    name: string;
-    description: string;
-    userIds: string[];
-  }) => Promise<void>;
+  onUpdate: (data: { name: string; description: string; userIds: string[] }) => Promise<void>;
   onDelete: (stationId: number) => void;
 }
 
@@ -39,13 +35,9 @@ export function StationCard({
     <div className="bg-card p-4 sm:p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow w-full max-w-full overflow-hidden border-1 border-[color-mix(in oklab, var(--ring) 50%, transparent)]">
       <div className="flex items-start justify-between mb-3 gap-2">
         <div className="flex-1 min-w-0">
-          <h3 className="text-xl font-bold text-gray-100 mb-1 truncate">
-            {station.name}
-          </h3>
+          <h3 className="text-xl font-bold text-gray-100 mb-1 truncate">{station.name}</h3>
           {station.description && (
-            <p className="text-sm text-gray-400 line-clamp-2 break-words">
-              {station.description}
-            </p>
+            <p className="text-sm text-gray-400 line-clamp-2 break-words">{station.description}</p>
           )}
         </div>
         <Store className="w-5 h-5 text-blue-400 flex-shrink-0" />

@@ -124,17 +124,13 @@ export default function POSStation() {
   }, [cart, stationId]);
 
   const addToCart = (product: Product) => {
-    const existingItem = cart.find(
-      (item) => item.productId === product.productId
-    );
+    const existingItem = cart.find((item) => item.productId === product.productId);
 
     if (existingItem) {
       if (existingItem.quantity < product.quantity) {
         setCart(
           cart.map((item) =>
-            item.productId === product.productId
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
+            item.productId === product.productId ? { ...item, quantity: item.quantity + 1 } : item
           )
         );
       }
@@ -211,11 +207,7 @@ export default function POSStation() {
       clearCart();
       fetchProducts();
     } catch (err) {
-      alert(
-        `Error processing sale: ${
-          err instanceof Error ? err.message : "Unknown error"
-        }`
-      );
+      alert(`Error processing sale: ${err instanceof Error ? err.message : "Unknown error"}`);
     } finally {
       setIsProcessingSale(false);
     }
@@ -277,9 +269,7 @@ export default function POSStation() {
               })}
             >
               {filteredProducts.map((product) => {
-                const cartItem = cart.find(
-                  (item) => item.productId === product.productId
-                );
+                const cartItem = cart.find((item) => item.productId === product.productId);
 
                 return (
                   <ProductCard

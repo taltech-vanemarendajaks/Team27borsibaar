@@ -1,0 +1,41 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Build outputs
+.next
+out
+dist
+build
+target
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+.env.*
+
+# Git
+.git
+.gitignore
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Backend (don't format Java with Prettier)
+backend/**/*.java
+backend/**/target
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+
+# Config files that have specific formatting
+*.md
+*.xml
+pom.xml
+

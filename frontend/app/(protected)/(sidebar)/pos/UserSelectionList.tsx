@@ -44,12 +44,8 @@ export function UserSelectionList({
                   checked={isChecked}
                   onCheckedChange={() => handleToggle(user.id.toString())}
                 />
-                <span className="text-sm text-gray-200">
-                  {user.name || user.email}
-                </span>
-                {user.role && (
-                  <span className="text-xs text-gray-400">({user.role})</span>
-                )}
+                <span className="text-sm text-gray-200">{user.name || user.email}</span>
+                {user.role && <span className="text-xs text-gray-400">({user.role})</span>}
               </div>
             );
           })

@@ -1,15 +1,16 @@
 package com.borsibaar.repository;
 
 import com.borsibaar.entity.Product;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
   boolean existsByOrganizationIdAndNameIgnoreCase(Long organizationId, String name);
 
-  @Query(value = """
+  @Query(
+      value =
+          """
         SELECT DISTINCT p.*
         FROM products p
         JOIN inventory inv ON inv.product_id = p.id
@@ -33,6 +34,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
               AND it_self.transaction_type = 'SALE'
               AND it_self.created_at >= (CURRENT_TIMESTAMP - INTERVAL '1 minute')
           )
-      """, nativeQuery = true)
+      """,
+      nativeQuery = true)
   List<Product> findByActiveOrgAndInactiveSalesLastMinute();
 }

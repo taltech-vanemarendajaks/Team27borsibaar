@@ -5,33 +5,32 @@ import com.borsibaar.entity.User;
 import com.borsibaar.mapper.UserMapper;
 import com.borsibaar.repository.UserRepository;
 import com.borsibaar.util.SecurityUtils;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
+  private final UserRepository userRepository;
+  private final UserMapper userMapper;
 
-    @GetMapping
-    public ResponseEntity<List<UserSummaryResponseDto>> getOrganizationUsers() {
-        // Get authenticated user from SecurityContext (set by JwtAuthenticationFilter)
-        User currentUser = SecurityUtils.getCurrentUser();
-        SecurityUtils.requireAdminRole(currentUser);
+  @GetMapping
+  public ResponseEntity<List<UserSummaryResponseDto>> getOrganizationUsers() {
+    // Get authenticated user from SecurityContext (set by JwtAuthenticationFilter)
+    User currentUser = SecurityUtils.getCurrentUser();
+    SecurityUtils.requireAdminRole(currentUser);
 
-        List<UserSummaryResponseDto> users = userRepository.findByOrganizationId(currentUser.getOrganizationId())
-                .stream()
-                .map(userMapper::toSummaryDto)
-                .toList();
+    List<UserSummaryResponseDto> users =
+        userRepository.findByOrganizationId(currentUser.getOrganizationId()).stream()
+            .map(userMapper::toSummaryDto)
+            .toList();
 
-        return ResponseEntity.ok(users);
-    }
+    return ResponseEntity.ok(users);
+  }
 }

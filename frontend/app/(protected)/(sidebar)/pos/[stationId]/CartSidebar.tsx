@@ -21,10 +21,7 @@ export function CartSidebar({
   onProcessSale,
   onClearCart,
 }: CartSidebarProps) {
-  const cartTotal = cart.reduce(
-    (sum, item) => sum + item.quantity * item.unitPrice,
-    0
-  );
+  const cartTotal = cart.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
 
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -51,9 +48,7 @@ export function CartSidebar({
                   <div className="text-sm text-gray-400">
                     {itemCount} {itemCount === 1 ? "item" : "items"}
                   </div>
-                  <div className="text-lg font-bold text-gray-100">
-                    ${cartTotal.toFixed(2)}
-                  </div>
+                  <div className="text-lg font-bold text-gray-100">${cartTotal.toFixed(2)}</div>
                 </div>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">

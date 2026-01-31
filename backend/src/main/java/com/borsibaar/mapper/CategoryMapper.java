@@ -10,13 +10,13 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "organizationId", ignore = true)
-    Category toEntity(CategoryRequestDto request);
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "organizationId", ignore = true)
+  Category toEntity(CategoryRequestDto request);
 
-    CategoryResponseDto toResponse(Category category);
+  CategoryResponseDto toResponse(Category category);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "organizationId", ignore = true)
-    void updateEntity(@MappingTarget Category category, CategoryRequestDto request);
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "organizationId", ignore = true)
+  void updateEntity(@MappingTarget Category category, CategoryRequestDto request);
 }
