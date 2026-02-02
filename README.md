@@ -4,6 +4,7 @@
 
 Börsibaar is a full-stack web application with a Spring Boot backend and Next.js frontend. It provides inventory management, transaction tracking, and price optimization features for stock bar themed events. There is also a public page for seeing drink prices in a format that is similar to the stock market.
 
+
 ### Testing
 
 ````bash
@@ -12,6 +13,14 @@ cd backend && ./mvnw test
 
 # Run frontend tests (if available)
 cd frontend && npm test
+
+## Features
+
+- **Inventory Management**: Track drink stock with dynamic pricing
+- **Point of Sale (POS)**: Sell drinks from multiple stations
+- **Public Display**: Stock market-style drink price board
+- **Multi-Organization**: Support multiple events/organizations
+
 
 ## Architecture
 
@@ -53,6 +62,16 @@ cd frontend && npm run lint
 
 ### Docker usage
 
+### Testing
+
+```bash
+# Run backend tests
+cd backend && ./mvnw test
+
+# Run frontend tests (if available)
+cd frontend && npm test
+
+
 ```bash
 # Start full development environment (DB and backend)
 docker compose up
@@ -90,6 +109,15 @@ Next.js 15 application using the App Router:
 ## Database
 
 PostgreSQL database configured via Docker. Environment variables are loaded from `.env` and `backend/.env` files.
+
+## Quick Start
+
+1. Clone the repository
+2. Copy `.sample.env` to `.env` and fill in database credentials
+3. Start services: `docker compose up`
+4. In another terminal: `cd frontend && npm install && npm run dev`
+5. Open http://localhost:3000
+
 
 ## Environment Setup
 
