@@ -2,7 +2,7 @@
 
 ## Team Information
 
-- Team Name: [Get from TEAM.md]
+- Team Name: Team27
 - Repository: https://github.com/taltech-vanemarendajaks/Team27borsibaar
 
 ## Pull Requests
