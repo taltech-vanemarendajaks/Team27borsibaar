@@ -17,3 +17,10 @@ This document lists all team members who contributed to the Börsibaar project.
 - **Raivo**: Documentation (TEAM.md, CONTRIBUTING.md)
 - **Natalia**: Documentation (CONTRIBUTORS.md, Test Plan)
 - **Oliver**: DevOps, Docker Configuration
+- ## GitHub Usernames
+
+- Lukas: [lukas-user](https://github.com/lukas-user)
+- Gretlin: [gretlin-user](https://github.com/gretlin-user)
+- Raivo: [raivota](https://github.com/raivota)
+- Natalia: [velesegorova12-code](https://github.com/velesegorova12-code)
+- Oliver: [olivertiks](https://github.com/olivertiks)
