@@ -1,5 +1,6 @@
 version: "3.9"
 services:
+# Spring Boot backend service
   postgres:
     image: postgres:17
     container_name: borsibaar-db
@@ -11,7 +12,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
+# Spring Boot backend service
   backend:
     build:
       context: backend
@@ -29,6 +30,6 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
     depends_on:
       - postgres
-
+# Persistent volume for database data
 volumes:
   postgres_data:
