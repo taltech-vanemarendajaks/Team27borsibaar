@@ -4,12 +4,23 @@
 
 Börsibaar is a full-stack web application with a Spring Boot backend and Next.js frontend. It provides inventory management, transaction tracking, and price optimization features for stock bar themed events. There is also a public page for seeing drink prices in a format that is similar to the stock market.
 
+
+### Testing
+
+````bash
+# Run backend tests
+cd backend && ./mvnw test
+
+# Run frontend tests (if available)
+cd frontend && npm test
+
 ## Features
 
 - **Inventory Management**: Track drink stock with dynamic pricing
 - **Point of Sale (POS)**: Sell drinks from multiple stations
 - **Public Display**: Stock market-style drink price board
 - **Multi-Organization**: Support multiple events/organizations
+
 
 ## Architecture
 
@@ -31,7 +42,7 @@ cd backend && ./mvnw clean package
 
 # Run tests
 cd backend && ./mvnw test
-```
+````
 
 ### Frontend (Next.js)
 
@@ -70,30 +81,30 @@ docker compose up
 
 The Spring Boot backend follows a layered architecture:
 
-* **Controllers** (`controller/`): REST API endpoints
-* **Services** (`service/`): Business logic layer
-* **Repositories** (`repository/`): Data access layer using Spring Data JPA
-* **Entities** (`entity/`): JPA entities mapping to database tables
-* **DTOs** (`dto/`): Request/Response data transfer objects
-* **Mappers** (`mapper/`): MapStruct mappers for entity-DTO conversion
-* **Config** (`config/`): Spring configuration classes
+- **Controllers** (`controller/`): REST API endpoints
+- **Services** (`service/`): Business logic layer
+- **Repositories** (`repository/`): Data access layer using Spring Data JPA
+- **Entities** (`entity/`): JPA entities mapping to database tables
+- **DTOs** (`dto/`): Request/Response data transfer objects
+- **Mappers** (`mapper/`): MapStruct mappers for entity-DTO conversion
+- **Config** (`config/`): Spring configuration classes
 
 Key technologies:
 
-* Spring Security with OAuth2 client
-* JWT tokens for authentication
-* Liquibase for database migrations
-* MapStruct for object mapping
-* Lombok for reducing boilerplate
+- Spring Security with OAuth2 client
+- JWT tokens for authentication
+- Liquibase for database migrations
+- MapStruct for object mapping
+- Lombok for reducing boilerplate
 
 ## Frontend Structure
 
 Next.js 15 application using the App Router:
 
-* **Pages**: `app/page.tsx` (landing), `app/dashboard/`, `app/login/`, `app/onboarding/`
-* **API Routes**: `app/api/` for backend integration
-* **Styling**: Tailwind CSS with custom components using Radix UI
-* **TypeScript**: Fully typed with strict configuration
+- **Pages**: `app/page.tsx` (landing), `app/dashboard/`, `app/login/`, `app/onboarding/`
+- **API Routes**: `app/api/` for backend integration
+- **Styling**: Tailwind CSS with custom components using Radix UI
+- **TypeScript**: Fully typed with strict configuration
 
 ## Database
 
@@ -165,6 +176,7 @@ server.forward-headers-strategy=framework
 ## Tech debt, things that could be improved
 
 ### Backend
+
 - **Inventory & pricing domain consistency, missing features**
   _Packages: `backend/src/main/java/com/borsibaar/entity`, `service`, `repository`_
   - Several services manually fetch related entities via repositories instead of navigating object graphs, which leads to extra queries and more complex code. Example from `InventoryService`: `getByOrganization` loads the `Product` for each `Inventory` via `productRepository.findById` instead of using a mapped association.
@@ -176,7 +188,6 @@ server.forward-headers-strategy=framework
   - Create a **public item transaction history endpoint** (read‑only, requires auth for now) that exposes `InventoryTransaction` data per product and organization.
   - Introduce a **price correction setting** on a per‑organization or per‑product basis (how often price correction runs, what lookback window to use).
   - Enhance the dynamic pricing model with gamification features like “hype trains” (e.g. bursts of demand temporarily decreasing prices) and “market crashes” (sharp temporary drops) for a more stock‑market‑like experience.
-
 
 - **Validation & business rules on write paths**
   _Packages: `controller`, `dto`, `service`_
@@ -193,13 +204,13 @@ server.forward-headers-strategy=framework
   - Test coverage is decent for happy paths, but is missing many edge cases. There should be more “negative” tests (invalid inputs, concurrent updates, trying to operate on another organization’s data, deleted/inactive products, etc.).
   - Logging is mostly technical (stack traces, generic messages) instead of structured domain events (who changed which product price, which station sold what, etc.).
 
-
 ### Frontend
+
 - **Inventory management UX & state model**
   _File: `frontend/app/(protected)/(sidebar)/inventory/page.tsx`_
   - The inventory page is a very large monolith that mixes data fetching, business rules, and complex UI (tables, dialogs, forms) in one file. This makes it harder to reason about and reuse.
   - Input validation should be implemented (e.g. negative prices, empty names, duplicate names, min greater than max, etc.). This could go hand-in-hand with the shared DTOs/types with the backend.
-  - Several places rely on loose typing or `// @ts-expect-error` because shared DTO types from the backend are missing.  Introducing a shared contract layer or code‑generated types would be a big improvement.
+  - Several places rely on loose typing or `// @ts-expect-error` because shared DTO types from the backend are missing. Introducing a shared contract layer or code‑generated types would be a big improvement.
     - TypeScript type checking is currently relaxed/ignored for builds in `next.config.ts`; this should be fixed so the build fails on type errors.
   - Sorting should be implemented in the inventory page product list view for better UX.
   - There should be a way to change the current price so a drink can be made cheaper or more expensive manually (e.g. manual overrides on top of dynamic pricing).
