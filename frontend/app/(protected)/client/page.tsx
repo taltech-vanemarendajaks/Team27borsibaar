@@ -28,8 +28,8 @@ const sponsors = [
   { name: "Red Bull", logo: "/redbull.svg" },
   { name: "itük", logo: "/ituk_long_nottu_red.svg" },
   { name: "alecoq", logo: "/alecoq.svg" },
-  { name: "insük", logo: "/insyk.png"},
-  { name: "anora", logo: "/anora-group-logo-white-CMYK.png"}
+  { name: "insük", logo: "/insyk.png" },
+  { name: "anora", logo: "/anora-group-logo-white-CMYK.png" },
 ];
 
 export default function ClientProductsByCategory() {
@@ -46,18 +46,15 @@ export default function ClientProductsByCategory() {
       try {
         const organizationId = 2;
 
-        const cRes = await fetch(
-          `/api/backend/categories?organizationId=${organizationId}`,
-          {
-            cache: "no-store",
-            credentials: "include",
-          }
-        );
+        const cRes = await fetch(`/api/backend/categories?organizationId=${organizationId}`, {
+          cache: "no-store",
+          credentials: "include",
+        });
         if (!cRes.ok) throw new Error(`Categories HTTP ${cRes.status}`);
         const cJson = await cRes.json();
         const categoryList: Category[] = Array.isArray(cJson)
           ? cJson
-          : cJson?.items ?? cJson?.content ?? [];
+          : (cJson?.items ?? cJson?.content ?? []);
 
         if (!alive) return;
         setCats(categoryList);
@@ -70,21 +67,16 @@ export default function ClientProductsByCategory() {
               credentials: "include",
             }
           );
-          if (!res.ok)
-            throw new Error(`Inventory HTTP ${res.status} (cat ${c.id})`);
+          if (!res.ok) throw new Error(`Inventory HTTP ${res.status} (cat ${c.id})`);
           const j = await res.json();
-          const arr: InvDto[] = Array.isArray(j)
-            ? j
-            : j?.items ?? j?.content ?? [];
+          const arr: InvDto[] = Array.isArray(j) ? j : (j?.items ?? j?.content ?? []);
           return [c.name, arr] as const;
         });
 
         const results = await Promise.all(fetches);
         if (!alive) return;
 
-        const grouped = Object.fromEntries(
-          results.filter(([, arr]) => arr.length > 0)
-        );
+        const grouped = Object.fromEntries(results.filter(([, arr]) => arr.length > 0));
         setGroups(grouped);
         setErr(null);
       } catch (e) {
@@ -103,10 +95,7 @@ export default function ClientProductsByCategory() {
     };
   }, []);
 
-  const totalItems = Object.values(groups).reduce(
-    (sum, arr) => sum + arr.length,
-    0
-  );
+  const totalItems = Object.values(groups).reduce((sum, arr) => sum + arr.length, 0);
 
   return (
     <div className="w-full bg-[#141224] text-white px-4 py-4 flex items-stretch justify-center flex flex-col gap-4">
@@ -119,12 +108,13 @@ export default function ClientProductsByCategory() {
 
         <section className="rounded-2xl bg-[#1b1830] border border-[#2a2640] p-4 flex flex-col basis-2/3">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-lg md:text-xl font-semibold tracking-wide">
-              Products by Category
-            </h2>
+            <h2 className="text-lg md:text-xl font-semibold tracking-wide">Products by Category</h2>
           </div>
 
-          <div className="columns-1 min-[1800px]:!columns-2 gap-4 min-[1800px]:max-h-[90vh]" style={{ "columnFill": "auto" }}>
+          <div
+            className="columns-1 min-[1800px]:!columns-2 gap-4 min-[1800px]:max-h-[90vh]"
+            style={{ columnFill: "auto" }}
+          >
             {loading && !totalItems && (
               <div className="col-span-full flex h-40 items-center justify-center text-lg text-[#a7a3c7]">
                 Loading…
@@ -147,9 +137,7 @@ export default function ClientProductsByCategory() {
                           {c.name}
                         </h3>
                       </div>
-                      <span className="text-xs text-[#8b88a9]">
-                        {items.length} items
-                      </span>
+                      <span className="text-xs text-[#8b88a9]">{items.length} items</span>
                     </div>
 
                     <table className="w-full text-xs lg:text-sm border-separate border-spacing-y-1 break-before-avoid">
@@ -164,15 +152,10 @@ export default function ClientProductsByCategory() {
                       <tbody>
                         {items
                           .slice()
-                          .sort((a, b) =>
-                            a.productName.localeCompare(b.productName)
-                          )
+                          .sort((a, b) => a.productName.localeCompare(b.productName))
                           .map((p) => {
                             const diff = p.unitPrice - p.basePrice;
-                            const diffPct =
-                              p.basePrice !== 0
-                                ? (diff / p.basePrice) * 100
-                                : 0;
+                            const diffPct = p.basePrice !== 0 ? (diff / p.basePrice) * 100 : 0;
 
                             const isUp = diff > 0;
                             const isDown = diff < 0;
@@ -196,17 +179,14 @@ export default function ClientProductsByCategory() {
                                     "px-2 py-1 text-right tabular-nums font-semibold whitespace-nowrap",
                                     isUp && "text-emerald-400",
                                     isDown && "text-red-400",
-                                    !isUp &&
-                                    !isDown &&
-                                    "text-[#8b88a9]"
+                                    !isUp && !isDown && "text-[#8b88a9]"
                                   )}
                                 >
                                   {diff === 0 ? (
                                     "—"
                                   ) : (
                                     <>
-                                      {diff > 0 ? "▲" : "▼"}{" "}
-                                      {Math.abs(diffPct).toFixed(1)}%
+                                      {diff > 0 ? "▲" : "▼"} {Math.abs(diffPct).toFixed(1)}%
                                     </>
                                   )}
                                 </td>
@@ -234,16 +214,11 @@ export default function ClientProductsByCategory() {
         <section className="rounded-2xl border border-[#2a2640] bg-[#1b1830] p-4 flex flex-col gap-4">
           <header className="flex flex-col gap-2 text-center justify-between pb-4">
             <div className="max-h-[130px] w-full flex justify-center">
-              <img
-                src="/tudengibaarlogo.png"
-                alt="Tudengibaar"
-                className="h-full object-contain"
-              /></div>
+              <img src="/tudengibaarlogo.png" alt="Tudengibaar" className="h-full object-contain" />
+            </div>
           </header>
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-lg md:text-xl font-semibold tracking-wide">
-              Price History
-            </h2>
+            <h2 className="text-lg md:text-xl font-semibold tracking-wide">Price History</h2>
           </div>
           <Chart groups={groups} />
           <div className="inline-flex items-center gap-5 rounded-full bg-[#191530] px-6 py-4 mx-3 my-2 border border-[#2a2640]">
@@ -251,10 +226,7 @@ export default function ClientProductsByCategory() {
               Sponsored by
             </span>
             {sponsors.map((s) => (
-              <div
-                key={s.name}
-                className="flex items-center justify-center h-10 w-30 md:w-32"
-              >
+              <div key={s.name} className="flex items-center justify-center h-10 w-30 md:w-32">
                 <Image
                   src={s.logo}
                   alt={s.name}
@@ -269,9 +241,7 @@ export default function ClientProductsByCategory() {
       </div>
 
       {/* FOOTER – sponsorid, aga ikka sama kaardi sees */}
-      <footer className="mt-10 flex justify-center hidden">
-
-      </footer>
+      <footer className="mt-10 flex justify-center hidden"></footer>
     </div>
   );
 }

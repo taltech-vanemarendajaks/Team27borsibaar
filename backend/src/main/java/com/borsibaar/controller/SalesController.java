@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class SalesController {
 
-    private final SalesService salesService;
+  private final SalesService salesService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public SaleResponseDto processSale(@RequestBody @Valid SaleRequestDto request) {
-        User user = SecurityUtils.getCurrentUser();
-        return salesService.processSale(request, user.getId(), user.getOrganizationId());
-    }
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public SaleResponseDto processSale(@RequestBody @Valid SaleRequestDto request) {
+    User user = SecurityUtils.getCurrentUser();
+    return salesService.processSale(request, user.getId(), user.getOrganizationId());
+  }
 }

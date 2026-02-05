@@ -23,11 +23,7 @@ async function fetchUser(req: NextRequest) {
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (
-    !["/login", "/dashboard", "/onboarding", "/pos"].some((p) =>
-      pathname.startsWith(p)
-    )
-  ) {
+  if (!["/login", "/dashboard", "/onboarding", "/pos"].some((p) => pathname.startsWith(p))) {
     return NextResponse.next();
   }
 
@@ -48,10 +44,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  if (
-    (pathname.startsWith("/dashboard") || pathname.startsWith("/pos")) &&
-    user.needsOnboarding
-  ) {
+  if ((pathname.startsWith("/dashboard") || pathname.startsWith("/pos")) && user.needsOnboarding) {
     return NextResponse.redirect(new URL("/onboarding", req.url));
   }
 

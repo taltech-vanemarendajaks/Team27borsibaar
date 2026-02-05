@@ -11,7 +11,4 @@ public record BarStationResponseDto(
     Boolean isActive,
     List<UserSummaryResponseDto> assignedUsers,
     Instant createdAt,
-    Instant updatedAt
-) {
-}
-
+    Instant updatedAt) {}

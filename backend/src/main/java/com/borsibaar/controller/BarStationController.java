@@ -6,72 +6,74 @@ import com.borsibaar.entity.User;
 import com.borsibaar.service.BarStationService;
 import com.borsibaar.util.SecurityUtils;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/bar-stations")
 @RequiredArgsConstructor
 public class BarStationController {
 
-    private final BarStationService barStationService;
+  private final BarStationService barStationService;
 
-    @GetMapping
-    public ResponseEntity<List<BarStationResponseDto>> getAllStations() {
-        User user = SecurityUtils.getCurrentUser();
-        SecurityUtils.requireAdminRole(user);
-        
-        List<BarStationResponseDto> stations = barStationService.getAllStations(user.getOrganizationId());
-        return ResponseEntity.ok(stations);
-    }
+  @GetMapping
+  public ResponseEntity<List<BarStationResponseDto>> getAllStations() {
+    User user = SecurityUtils.getCurrentUser();
+    SecurityUtils.requireAdminRole(user);
 
-    @GetMapping("/user")
-    public ResponseEntity<List<BarStationResponseDto>> getUserStations() {
-        User user = SecurityUtils.getCurrentUser();
-        
-        List<BarStationResponseDto> stations = barStationService.getUserStations(user.getId(), user.getOrganizationId());
-        return ResponseEntity.ok(stations);
-    }
+    List<BarStationResponseDto> stations =
+        barStationService.getAllStations(user.getOrganizationId());
+    return ResponseEntity.ok(stations);
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<BarStationResponseDto> getStationById(@PathVariable Long id) {
-        User user = SecurityUtils.getCurrentUser();
-        
-        BarStationResponseDto station = barStationService.getStationById(user.getOrganizationId(), id);
-        return ResponseEntity.ok(station);
-    }
+  @GetMapping("/user")
+  public ResponseEntity<List<BarStationResponseDto>> getUserStations() {
+    User user = SecurityUtils.getCurrentUser();
 
-    @PostMapping
-    public ResponseEntity<BarStationResponseDto> createStation(@Valid @RequestBody BarStationRequestDto request) {
-        User user = SecurityUtils.getCurrentUser();
-        SecurityUtils.requireAdminRole(user);
-        
-        BarStationResponseDto station = barStationService.createStation(user.getOrganizationId(), request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(station);
-    }
+    List<BarStationResponseDto> stations =
+        barStationService.getUserStations(user.getId(), user.getOrganizationId());
+    return ResponseEntity.ok(stations);
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<BarStationResponseDto> updateStation(
-            @PathVariable Long id,
-            @Valid @RequestBody BarStationRequestDto request) {
-        User user = SecurityUtils.getCurrentUser();
-        SecurityUtils.requireAdminRole(user);
-        
-        BarStationResponseDto station = barStationService.updateStation(user.getOrganizationId(), id, request);
-        return ResponseEntity.ok(station);
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<BarStationResponseDto> getStationById(@PathVariable Long id) {
+    User user = SecurityUtils.getCurrentUser();
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStation(@PathVariable Long id) {
-        User user = SecurityUtils.getCurrentUser();
-        SecurityUtils.requireAdminRole(user);
-        
-        barStationService.deleteStation(user.getOrganizationId(), id);
-        return ResponseEntity.noContent().build();
-    }
+    BarStationResponseDto station = barStationService.getStationById(user.getOrganizationId(), id);
+    return ResponseEntity.ok(station);
+  }
+
+  @PostMapping
+  public ResponseEntity<BarStationResponseDto> createStation(
+      @Valid @RequestBody BarStationRequestDto request) {
+    User user = SecurityUtils.getCurrentUser();
+    SecurityUtils.requireAdminRole(user);
+
+    BarStationResponseDto station =
+        barStationService.createStation(user.getOrganizationId(), request);
+    return ResponseEntity.status(HttpStatus.CREATED).body(station);
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<BarStationResponseDto> updateStation(
+      @PathVariable Long id, @Valid @RequestBody BarStationRequestDto request) {
+    User user = SecurityUtils.getCurrentUser();
+    SecurityUtils.requireAdminRole(user);
+
+    BarStationResponseDto station =
+        barStationService.updateStation(user.getOrganizationId(), id, request);
+    return ResponseEntity.ok(station);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteStation(@PathVariable Long id) {
+    User user = SecurityUtils.getCurrentUser();
+    SecurityUtils.requireAdminRole(user);
+
+    barStationService.deleteStation(user.getOrganizationId(), id);
+    return ResponseEntity.noContent().build();
+  }
 }
-
