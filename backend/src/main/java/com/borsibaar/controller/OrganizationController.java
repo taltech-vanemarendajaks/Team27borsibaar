@@ -38,5 +38,5 @@ public class OrganizationController {
         System.out.println(request);
         return organizationService.update(id, request);
     }
-
+    
 }
