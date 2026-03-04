@@ -14,7 +14,7 @@ services:
       - borsibaar-network
 
   backend:
-    image: lewkis/borsibaar-backend:v1.0.0
+    image: lewkis/borsibaar-backend:latest
     container_name: borsibaar-backend
     ports:
       - "8080:8080"
@@ -31,7 +31,7 @@ services:
       - borsibaar-network
 
   frontend:
-    image: lewkis/borsibaar-frontend:v1.0.0
+    image: lewkis/borsibaar-frontend:latest
     container_name: borsibaar-frontend
     ports:
       - "3000:3000"
