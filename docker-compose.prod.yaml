@@ -41,17 +41,14 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
-      args:
-        # Build-time variable for client-side OAuth redirects (now through nginx)
-        NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
     container_name: borsibaar-frontend
     expose:
       - "3000"
     environment:
       # Server-side: Use Docker network for internal communication
       BACKEND_URL: http://backend:8080
-      # Client-side: Public URL for OAuth redirects (now through nginx)
-      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+      # Client-side: Public URL for OAuth redirects (read at runtime by server component)
+      PUBLIC_BACKEND_URL: ${PUBLIC_BACKEND_URL}
     restart: unless-stopped
     depends_on:
       - backend
