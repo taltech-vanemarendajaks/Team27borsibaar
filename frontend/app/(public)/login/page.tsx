@@ -1,13 +1,18 @@
 export const dynamic = "force-dynamic";
 
 export default function LoginPage() {
-  // Server component reads env at runtime (no NEXT_PUBLIC_ = not baked in)
+  // Server component with force-dynamic reads env at runtime
   const publicBackendUrl =
-    process.env.PUBLIC_BACKEND_URL || "http://localhost:8080";
+    process.env.PUBLIC_BACKEND_URL ||
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
+    "http://localhost:8080";
+
+  console.log("[LOGIN] Resolved publicBackendUrl:", publicBackendUrl);
 
   return (
     <div className="flex flex-col min-h-screen items-center justify-center content-center gap-4">
       <h1 className="text-2xl font-bold text-center">Login</h1>
+      <p className="text-sm text-gray-500">BE URL: {publicBackendUrl}</p>
       <a href={`${publicBackendUrl}/oauth2/authorization/google`}>
         <button
           type="button"
