@@ -1,9 +1,13 @@
 export const dynamic = "force-dynamic";
 
 export default function LoginPage() {
-  // For OAuth, browser needs PUBLIC backend URL, not Docker internal URL
+  // Server component with force-dynamic reads env at runtime
   const publicBackendUrl =
-    process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
+    process.env.PUBLIC_BACKEND_URL ||
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
+    "http://localhost:8080";
+
+  console.log("[LOGIN] Resolved publicBackendUrl:", publicBackendUrl);
 
   return (
     <div className="flex flex-col min-h-screen items-center justify-center content-center gap-4">
